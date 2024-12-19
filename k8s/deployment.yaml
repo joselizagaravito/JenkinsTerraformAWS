@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-inscripciones-deployment
+  labels:
+    app: java-inscripciones
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: java-inscripciones
+  template:
+    metadata:
+      labels:
+        app: java-inscripciones
+    spec:
+      containers:
+      - name: java-inscripciones
+        image: joselizagaravito/java-inscripciones:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-inscripciones-service
+spec:
+  selector:
+    app: java-inscripciones
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
